@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "motion/react";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
+import Navbar from "./navbar"; // Changed to lowercase 'n'
+import Footer from "./footer"; // Changed to lowercase 'f'
 import contactBg from "../assets/contact.jpg";
 
 // Paste the /exec URL from your deployed Google Apps Script web app here:

@@ -1,7 +1,7 @@
 import { useRef, useEffect } from "react";
 import { motion, useAnimationControls, useScroll, useMotionValueEvent } from "motion/react";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
+import Navbar from "./navbar"; // Changed to lowercase 'n'
+import Footer from "./footer"; // Changed to lowercase 'f'
 import aboutImg from "../assets/aboutimg.jpg";
 
 import imgFmcg from "../assets/img1.jpg";

@@ -5,8 +5,8 @@ import {
   useScroll,
   useMotionValueEvent,
 } from "motion/react";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
+import Navbar from "./navbar"; // Changed to lowercase 'n'
+import Footer from "./footer"; // Changed to lowercase 'f'
 
 import strip1 from "../assets/1img.jpg";
 import strip2 from "../assets/2img.jpg";
