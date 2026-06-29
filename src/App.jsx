@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { AnimatePresence } from "motion/react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import Preloader from "./components/Preloader";
-import Home from "./pages/Home";
-import About from "./components/About";
+import Preloader from "./components/preloader"; // Changed to lowercase 'p'
+import Home from "./pages/home";               // Changed to lowercase 'h'
+import About from "./components/About";         // Keeps capital 'A' to match your file
 import Services from "./components/services";
 import Contact from "./components/contact";
-
+ 
 // Always start a freshly-navigated page from the top
 function ScrollToTop() {
   const { pathname, key } = useLocation();

@@ -1,8 +1,8 @@
-import Navbar from "../components/Navbar";
-import Hero from "../components/Hero";
-import Vision from "../components/Vision";
-import Testimonials from "../components/Testimonials";
-import Footer from "../components/Footer";
+import Navbar from "../components/navbar";
+import Hero from "../components/hero";
+import Vision from "../components/vision";
+import Testimonials from "../components/testimonials";
+import Footer from "../components/footer";
 
 function Home() {
   return (
