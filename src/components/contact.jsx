@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
 import Navbar from "./navbar"; // Changed to lowercase 'n'
 import Footer from "./footer"; // Changed to lowercase 'f'
@@ -65,6 +66,7 @@ const categories = [
 ];
 
 function Contact() {
+  const navigate = useNavigate();
   const [form, setForm] = useState({ name: "", email: "", phone: "", category: "", message: "" });
   // submitted is the source of truth for the thank-you screen.
   // Initialised from sessionStorage so a refresh within the same visit keeps the lock,
@@ -73,6 +75,23 @@ function Contact() {
     () => sessionStorage.getItem("gh_contact_sent") === "true"
   );
   const [status, setStatus] = useState("idle"); // idle | sending | error
+  // redirecting is only armed by a live submit in this mount — it is NOT restored from
+  // sessionStorage, so navigating back to /contact later shows the success message without
+  // restarting the countdown.
+  const [redirecting, setRedirecting] = useState(false);
+  const [countdown, setCountdown] = useState(15);
+
+  // Runs the redirect countdown once submission succeeds. The cleanup clears the pending
+  // tick, so navigating to any other page (which unmounts this component) stops the timer.
+  useEffect(() => {
+    if (!redirecting) return;
+    if (countdown <= 0) {
+      navigate("/");
+      return;
+    }
+    const tick = setTimeout(() => setCountdown((c) => c - 1), 1000);
+    return () => clearTimeout(tick);
+  }, [redirecting, countdown, navigate]);
 
   const handleChange = (e) =>
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
@@ -98,6 +117,7 @@ function Contact() {
       if (data.success) {
         sessionStorage.setItem("gh_contact_sent", "true");
         setSubmitted(true);
+        setRedirecting(true);
       } else {
         setStatus("error");
       }
@@ -258,6 +278,11 @@ function Contact() {
                   <p className="mt-3 max-w-md text-neutral-500">
                     Thanks for reaching out — we've received your message and our team will get back to you shortly.
                   </p>
+                  {redirecting && (
+                    <p className="mt-4 text-sm text-neutral-400">
+                      Redirecting you to the home page in {countdown} second{countdown === 1 ? "" : "s"}...
+                    </p>
+                  )}
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -393,5 +418,4 @@ function Contact() {
     </>
   );
 }
-
 export default Contact;

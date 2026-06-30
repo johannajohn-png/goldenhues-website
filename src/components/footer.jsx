@@ -69,6 +69,9 @@ function Footer() {
         <p className="text-center text-xs text-neutral-400">
           © GoldenHues 2009–2026. All Rights Reserved.
         </p>
+        <p className="mx-auto mt-2 max-w-2xl px-6 text-center text-[11px] leading-relaxed text-neutral-400">
+          Some images on this website are AI-generated and used for illustrative purposes only. They do not represent actual individuals, clients, or candidates.
+        </p>
       </div>
     </footer>
   );
