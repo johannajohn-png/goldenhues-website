@@ -295,8 +295,7 @@ function BenefitCard({ benefit, index }) {
       variants={benefitCardV}
       initial="hidden"
       animate={controls}
-      className="border border-neutral-200/70 bg-neutral-500/20 p-7 backdrop-blur-md"
-    >
+className="border border-neutral-200/70 bg-white/70 p-7 backdrop-blur-md"    >
       <div className="flex items-center gap-3">
         <svg
           className="h-6 w-6 shrink-0 text-neutral-900"
@@ -311,7 +310,7 @@ function BenefitCard({ benefit, index }) {
         </svg>
         <h3 className="text-xl font-semibold text-neutral-900">{benefit.title}</h3>
       </div>
-      <p className="mt-3 text-sm leading-relaxed text-neutral-600">{benefit.text}</p>
+      <p className="mt-3 text-sm leading-relaxed text-neutral-900">{benefit.text}</p>
     </motion.div>
   );
 }
@@ -456,7 +455,7 @@ function Services() {
         {/* 4) BENEFITS — each card reveals (slowly) as it scrolls DOWN into view; replays */}
         <section className="relative w-full overflow-hidden py-24">
           <img src={benefitsBg} alt="" className="absolute inset-0 h-full w-full object-cover" />
-          <div className="absolute inset-0 bg-white/40" />
+          <div className="absolute inset-0 bg-neutral-500/40" />
 
           <div className="relative z-10 mx-auto max-w-7xl px-6">
             <BenefitHeading />

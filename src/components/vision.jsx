@@ -2,27 +2,11 @@ import { useRef, useEffect } from "react";
 import { motion, useInView, useAnimationControls, useScroll, useMotionValueEvent } from "motion/react";
 
 const cards = [
-  { num: "01", title: "Client First", text: "Processes and resources aligned to your need. Your timeline is our deadline.", pattern: "stripes" },
-  { num: "02", title: "Outcome Driven", text: "Ensuring high-quality hires, always. Delivering on time, every time.", pattern: "dots" },
-  { num: "03", title: "Partnership Centric", text: "Your extended arm in the market. Relationship focused, not transactional.", pattern: "grid" },
-  { num: "04", title: "48-Hour Turnaround", text: "Industry-leading 48-hour average response on every requirement.", pattern: "hstripes" },
+  { num: "01", title: "Client First", text: "Processes and resources aligned to your need. Your timeline is our deadline." },
+  { num: "02", title: "Outcome Driven", text: "Ensuring high-quality hires, always. Delivering on time, every time." },
+  { num: "03", title: "Partnership Centric", text: "Your extended arm in the market. Relationship focused, not transactional." },
+  { num: "04", title: "48-Hour Turnaround", text: "Industry-leading 48-hour average response on every requirement." },
 ];
-
-function patternStyle(pattern) {
-  const c = "rgba(0,0,0,0.05)";
-  switch (pattern) {
-    case "stripes":
-      return { backgroundImage: `repeating-linear-gradient(45deg, ${c} 0, ${c} 1.5px, transparent 1.5px, transparent 12px)` };
-    case "hstripes":
-      return { backgroundImage: `repeating-linear-gradient(0deg, ${c} 0, ${c} 1.5px, transparent 1.5px, transparent 12px)` };
-    case "dots":
-      return { backgroundImage: `radial-gradient(${c} 1.4px, transparent 1.4px)`, backgroundSize: "14px 14px" };
-    case "grid":
-      return { backgroundImage: `linear-gradient(${c} 1px, transparent 1px), linear-gradient(90deg, ${c} 1px, transparent 1px)`, backgroundSize: "16px 16px" };
-    default:
-      return {};
-  }
-}
 
 const EASE = [0.22, 1, 0.36, 1];
 
@@ -110,10 +94,9 @@ function Vision() {
   variants={cardV}
   className="relative flex aspect-4/3 flex-col justify-center overflow-hidden bg-white p-4 sm:p-5"
 >
-                  <div className="pointer-events-none absolute inset-0" style={patternStyle(c.pattern)} />
                   <div className="relative">
                     <h3 className="text-base font-semibold text-neutral-900 sm:text-lg lg:text-xl">{c.title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-neutral-500 sm:text-base">{c.text}</p>
+                    <p className="mt-2 text-sm leading-relaxed text-neutral-700 sm:text-base">{c.text}</p>
                   </div>
                 </motion.div>
               ))}

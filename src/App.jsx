@@ -8,9 +8,6 @@ import About from "./components/About";         // Keeps capital 'A' to match yo
 import Services from "./components/services";
 import Contact from "./components/contact";
 
-// TEMPORARY "coming soon" lock. Set to false to restore normal behaviour (routes + arrows).
-const COMING_SOON = true;
-
 const EASE = [0.22, 1, 0.36, 1];
 
 // Linear page order drives slide direction: forward -> slide from right, back -> from left.
@@ -72,7 +69,6 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (COMING_SOON) return; // stay on the preloader; never mount the routes
     const timer = setTimeout(() => setLoading(false), 2600); // splash duration
     return () => clearTimeout(timer);
   }, []);
@@ -80,7 +76,7 @@ function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <AnimatePresence>{loading && <Preloader comingSoon={COMING_SOON} />}</AnimatePresence>
+      <AnimatePresence>{loading && <Preloader />}</AnimatePresence>
       {!loading && (
         <>
           <AnimatedRoutes />
