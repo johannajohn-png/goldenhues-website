@@ -6,10 +6,7 @@ import Home from "./pages/home";               // Changed to lowercase 'h'
 import About from "./components/About";         // Keeps capital 'A' to match your file
 import Services from "./components/services";
 import Contact from "./components/contact";
-
-// TEMPORARY "coming soon" lock. Set to false tomorrow to restore normal behaviour.
-const COMING_SOON = true;
-
+ 
 // Always start a freshly-navigated page from the top
 function ScrollToTop() {
   const { pathname, key } = useLocation();
@@ -37,7 +34,6 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (COMING_SOON) return; // stay on the preloader; never mount the routes
     const timer = setTimeout(() => setLoading(false), 2600); // splash duration
     return () => clearTimeout(timer);
   }, []);
@@ -45,7 +41,7 @@ function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <AnimatePresence>{loading && <Preloader comingSoon={COMING_SOON} />}</AnimatePresence>
+      <AnimatePresence>{loading && <Preloader />}</AnimatePresence>
       {!loading && <AppRoutes />}
     </BrowserRouter>
   );
