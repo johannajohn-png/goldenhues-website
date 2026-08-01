@@ -92,7 +92,7 @@ function Vision() {
   key={c.num}
   custom={i}
   variants={cardV}
-  className="relative flex aspect-4/3 flex-col justify-center overflow-hidden bg-white p-4 sm:p-5"
+  className="relative flex flex-col justify-center overflow-hidden bg-white p-4 sm:aspect-4/3 sm:p-5"
 >
                   <div className="relative">
                     <h3 className="text-base font-semibold text-neutral-900 sm:text-lg lg:text-xl">{c.title}</h3>
