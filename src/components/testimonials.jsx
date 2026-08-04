@@ -4,6 +4,9 @@ import bg from "../assets/testimonials.jpg";
 
 const EASE = [0.22, 1, 0.36, 1];
 
+// how long each testimonial stays on screen before auto-advancing
+const SLIDE_DURATION = 20000;
+
 const testimonials = [
   {
     quote:
@@ -77,10 +80,12 @@ function Testimonials() {
     setIndex(i);
   };
 
-  // auto-advance every 3s; paused on hover or while a testimonial is expanded
+  // Auto-advance every SLIDE_DURATION ms; paused on hover or while a testimonial
+  // is expanded. The effect depends on `index`, so using the arrows or the dots
+  // restarts the full timer instead of jumping again a moment later.
   useEffect(() => {
     if (paused || expanded) return;
-    const t = setTimeout(() => go(1), 3000);
+    const t = setTimeout(() => go(1), SLIDE_DURATION);
     return () => clearTimeout(t);
   }, [index, paused, expanded, go]);
 
@@ -119,12 +124,19 @@ function Testimonials() {
           <Arrow dir={-1} onClick={() => go(-1)} />
           <Arrow dir={1} onClick={() => go(1)} />
 
+          {/*
+            Card sizing:
+            - below md (phones / small tablets): fixed height + inner scrolling,
+              so a long testimonial stays readable on a small screen.
+            - md and up: height follows the content, so no scrollbar ever shows.
+              min-height keeps short testimonials from making the card collapse.
+          */}
           <div
             onMouseEnter={() => setPaused(true)}
             onMouseLeave={() => setPaused(false)}
-            className="relative h-125 overflow-hidden rounded-2xl border border-white/50 bg-white/60 shadow-2xl backdrop-blur-md sm:h-[440px]"
+            className="relative h-125 overflow-hidden rounded-2xl border border-white/50 bg-white/60 shadow-2xl backdrop-blur-md md:h-auto"
           >
-            <span className="pointer-events-none absolute left-5 top-2 select-none font-serif text-7xl leading-none text-neutral-300/70 sm:text-8xl">
+            <span className="pointer-events-none absolute left-5 top-2 z-10 select-none font-serif text-7xl leading-none text-neutral-300/70 sm:text-8xl">
               &ldquo;
             </span>
 
@@ -137,9 +149,9 @@ function Testimonials() {
                 animate="center"
                 exit="exit"
                 transition={{ duration: 0.45, ease: EASE }}
-                className="absolute inset-0 overflow-y-auto"
+                className="absolute inset-0 overflow-y-auto md:static md:overflow-visible"
               >
-                <div className="flex min-h-full flex-col justify-center px-8 py-12 sm:px-14 sm:py-16">
+                <div className="flex min-h-full flex-col justify-center px-8 py-12 sm:px-14 sm:py-16 md:min-h-[400px]">
                   <p className="text-lg leading-relaxed text-neutral-800 sm:text-xl">{t.quote}</p>
 
                   {t.long && (

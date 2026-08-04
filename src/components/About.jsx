@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { motion, useAnimationControls, useScroll, useMotionValueEvent } from "motion/react";
 import Navbar from "./navbar"; // Changed to lowercase 'n'
 import Footer from "./footer"; // Changed to lowercase 'f'
@@ -49,6 +49,19 @@ function About() {
 
   const scrollToIndustries = () =>
     document.getElementById("industries")?.scrollIntoView({ behavior: "smooth" });
+
+  // Touch devices don't fire :hover reliably, so the industry cards reveal their
+  // description on tap instead. Desktop behaviour is untouched.
+  const [isTouch, setIsTouch] = useState(false);
+  const [openCard, setOpenCard] = useState(null);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(hover: none)");
+    const update = () => setIsTouch(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
 
   // direction-aware reveal for the split section (same as the home page):
   // slides in on scroll-down, just appears on scroll-up, resets only when fully off screen
@@ -208,34 +221,59 @@ function About() {
             </motion.h2>
 
             <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {industries.map((item, i) => (
-                <motion.div
-                  key={item.name}
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: 0.6, ease: EASE, delay: (i % 4) * 0.1 }}
-                  className="group relative aspect-[3/4] overflow-hidden bg-black"
-                >
-                  <img
-                    src={item.img}
-                    alt={item.name}
-                    className="absolute inset-0 h-full w-full object-cover transition-all duration-500 group-hover:scale-105 group-hover:opacity-25"
-                  />
-                  <div className="absolute inset-0 bg--to-t from-black/80 via-black/20 to-transparent" />
+              {industries.map((item, i) => {
+                // on touch devices the reveal is driven by state instead of :hover
+                const open = isTouch && openCard === i;
+                return (
+                  <motion.div
+                    key={item.name}
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.2 }}
+                    transition={{ duration: 0.6, ease: EASE, delay: (i % 4) * 0.1 }}
+                    onClick={() => {
+                      if (isTouch) setOpenCard(openCard === i ? null : i);
+                    }}
+                    className={`group relative aspect-[3/4] overflow-hidden bg-black ${
+                      isTouch ? "cursor-pointer select-none" : ""
+                    }`}
+                  >
+                    <img
+                      src={item.img}
+                      alt={item.name}
+                      className={`absolute inset-0 h-full w-full object-cover transition-all duration-500 ${
+                        open ? "scale-105 opacity-25" : "group-hover:scale-105 group-hover:opacity-25"
+                      }`}
+                    />
+                    <div className="absolute inset-0 bg--to-t from-black/80 via-black/20 to-transparent" />
 
-                  <div className="absolute inset-x-0 bottom-0 p-6">
-                    <h3 className="text-xl font-bold text-white transition-transform duration-500 group-hover:-translate-y-1">
-                      {item.name}
-                    </h3>
-                    <div className="grid grid-rows-[0fr] transition-all duration-500 ease-out group-hover:grid-rows-[1fr]">
-                      <p className="overflow-hidden text-sm leading-relaxed text-white/85 opacity-0 transition-opacity duration-500 group-hover:mt-3 group-hover:opacity-100">
-                        {item.desc}
-                      </p>
+                    <div className="absolute inset-x-0 bottom-0 p-6">
+                      <h3
+                        className={`text-xl font-bold text-white transition-transform duration-500 ${
+                          open ? "-translate-y-1" : "group-hover:-translate-y-1"
+                        }`}
+                      >
+                        {item.name}
+                      </h3>
+                      <div
+                        className={`grid transition-all duration-500 ease-out ${
+                          open ? "grid-rows-[1fr]" : "grid-rows-[0fr] group-hover:grid-rows-[1fr]"
+                        }`}
+                      >
+                        <p
+                          className={`overflow-hidden text-sm leading-relaxed text-white/85 transition-opacity duration-500 ${
+                            open
+                              ? "mt-3 opacity-100"
+                              : "opacity-0 group-hover:mt-3 group-hover:opacity-100"
+                          }`}
+                        >
+                          {item.desc}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                </motion.div>
-              ))}
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </section>
