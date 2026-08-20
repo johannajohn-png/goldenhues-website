@@ -18,8 +18,7 @@ function Navbar() {
       className="fixed left-0 top-0 z-50 w-full border-b border-neutral-100 bg-white"
     >
       <nav className="flex w-full items-center justify-between px-8 py-4">
-        <Link to="/">
-          <img src={logo} alt="GoldenHues" className="h-14 w-auto" />
+<Link to="/" className="shrink-0">          <img src={logo} alt="GoldenHues" className="h-10 w-auto sm:h-14" />
         </Link>
         <ul className="flex gap-6 text-sm font-medium text-neutral-600 sm:gap-10">
           {links.map((link) => (
