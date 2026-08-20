@@ -93,9 +93,15 @@ function Testimonials() {
 
   return (
     <section className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden py-24">
-      {/* muted background image (~50%) */}
-      <div className="absolute inset-0 bg-neutral-200" />
-      <img src={bg} alt="" className="absolute inset-0 h-full w-full object-cover opacity-50" />
+      {/* muted background image (~50%).
+          The image lives in a viewport-height sticky wrapper, so its size is
+          tied to the screen — not the section. When the card expands and the
+          section grows, the image no longer rescales ("zooms"). */}
+      <div className="absolute inset-0 overflow-hidden bg-neutral-200">
+        <div className="sticky top-0 h-screen">
+          <img src={bg} alt="" className="h-full w-full object-cover opacity-50" />
+        </div>
+      </div>
 
       <div className="relative z-10 w-full max-w-4xl px-6">
         <motion.h2
